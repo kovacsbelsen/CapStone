@@ -1,0 +1,5 @@
+train: ./training/data/images/train/
+val: ./training/data/images/valid/
+
+nc: 3
+names: ['head', 'helmet', 'person']

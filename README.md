@@ -2,30 +2,33 @@
 
 ![](site.gif)
 
-## Introduction
+## Introduction - Safet of Site
 
-This repository contains a moded version of PyTorch YOLOv5 (https://github.com/ultralytics/yolov5). 
+This repository contains a moded version of PyTorch YOLOv5 (https://github.com/ultralytics/yolov5).
 
-The first use case can be initiated by running the detect.py script in jupyter notebook (see CapStone_SOS.ipynb) or terminal.
-It detects people, helmets, or if helmets are not detected, heads.
-All detected people are counted and compared to the amount of helmets detected. If it is not equal, an error message, "Incorrect" appears on the image / frame. In case any heads are detected without a helmet, the same "Incorrect" message appears, indicating danger.
 
-A second use case can be initiated by running the detectgate.py script.
-It is an automated gate entrance system for construction sites. A person is detected in the frame and we check for their helmet. If the helmet is not detected, the gate will remain closed.
-Once it is detected, we count for 30 frames, if the person had the helmet on for 30 consecutive frames, we open the gate for 15 frames. If the count is disrupted before it reaches 30, it resets to 0
+Construction site object detection project, for predicting the proper use of safety helmets with two use cases.
+
+The first use case can be initiated by running the detect.py script in jupyter notebook (see CapStone_SOS.ipynb) or terminal.<br/>
+It detects people, helmets, or if helmets are not detected, heads.<br/>
+All detected people are counted and compared to the amount of helmets detected.<br/> 
+If it is not equal, an error message, "Incorrect" appears on the image / frame.<br/> 
+In case any heads are detected without a helmet, the same "Incorrect" message appears, indicating danger.<br/>
+
+The second use case can be initiated by running the detectgate.py script.<br/>
+It is an automated gate entrance system for construction sites.<br/> 
+A person is detected in the frame and we check for their helmet. If the helmet is not detected, the gate will remain closed.<br/>
+Once it is detected, we count for 30 frames, if the person had the helmet on for 30 consecutive frames, we open the gate for 15 frames.<br/> 
+If the count is disrupted before it reaches 30, it resets to 0.<br/>
  
 
 
-The detections of persons are then passed to a Deep Sort algorithm (https://github.com/ZQPei/deep_sort_pytorch) which tracks the persons. The reason behind the fact that it just tracks persons is that the deep association metric is trained on a person ONLY datatset.
+## Work in progress - People movement tracker
 
-## Description
+The detections of persons from Yolov5 are passed to a Deep Sort algorithm (https://github.com/ZQPei/deep_sort_pytorch) which tracks the persons. 
+For each detection, the center of their bounding box is calculated, then the center's coordinate is passed to a dictionary each frame.
+For each detection, we get all of the previous coordinate location and draw lines in consecutive order.
 
-The implementation is based on two papers:
-
-- Simple Online and Realtime Tracking with a Deep Association Metric
-https://arxiv.org/abs/1703.07402
-- YOLOv4: Optimal Speed and Accuracy of Object Detection
-https://arxiv.org/pdf/2004.10934.pdf
 
 ## Requirements
 
@@ -37,31 +40,31 @@ All dependencies are included in the associated docker images. Docker requiremen
 - `nvidia-docker`
 - Nvidia Driver Version >= 440.44
 
-## Before you run the tracker
+Running the app on CUDA is recommended for performance, if a GPU is available.
 
-1. Clone the repository recursively:
 
-`git clone --recurse-submodules https://github.com/mikel-brostrom/Yolov5_DeepSort_Pytorch.git`
+## Detection
 
-If you already cloned and forgot to use `--recurse-submodules` you can run `git submodule update --init`
+Detections can be run on most image and video formats as well as live camera feed<br/>
 
-2. Github block pushes of files larger than 100 MB (https://help.github.com/en/github/managing-large-files/conditions-for-large-files). Hence you need to download two different weights: the ones for yolo and the ones for deep sort
+See CapStone_SOS.ipynb to easily run the app, or use terminal with the pretrained personhelmet.pt weight at a confidence threshold of 55%<br/>
 
-- download the yolov5 weight from the latest realease https://github.com/ultralytics/yolov5/releases. Place the downlaoded `.pt` file under `yolov5/weights/`
-- download the deep sort weights from https://drive.google.com/drive/folders/1xhG0kRH1EX5B9_Iz8gQJb7UNnn_riXi6. Place ckpt.t7 file under`deep_sort/deep/checkpoint/`
-
-## Tracking
-
-Tracking can be run on most video formats
+First use case:<br/>
+```bash
+!python detect.py --source 0 --weights personhelmet.pt --conf 0.55
+```
+Second use case<br/>
+```bash
+!python detectgate.py --source 0 --weights personhelmet.pt --conf 0.55
+```
 
 ```bash
-python3 track.py --source ...
+!python detect.py --source ...
 ```
 
 - Video:  `--source file.mp4`
 - Webcam:  `--source 0`
-- RTSP stream:  `--source rtsp://170.93.143.139/rtplive/470011e600ef003a004ee33696235daa`
-- HTTP stream:  `--source http://wmccpinetop.axiscam.net/mjpg/video.mjpg`
+- Image: `--source file.jpg`
 
 MOT compliant results can be saved to `inference/output` by 
 

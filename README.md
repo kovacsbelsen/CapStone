@@ -7,16 +7,18 @@
 This repository contains a moded version of PyTorch YOLOv5 (https://github.com/ultralytics/yolov5).
 
 
-Construction site object detection project, for predicting the proper use of safety helmets.
+Construction site object detection project, for predicting the proper use of safety helmets with two use cases.
 
 The first use case can be initiated by running the detect.py script in jupyter notebook (see CapStone_SOS.ipynb) or terminal.
-
 It detects people, helmets, or if helmets are not detected, heads.
-All detected people are counted and compared to the amount of helmets detected. If it is not equal, an error message, "Incorrect" appears on the image / frame. In case any heads are detected without a helmet, the same "Incorrect" message appears, indicating danger.
+All detected people are counted and compared to the amount of helmets detected. If it is not equal, an error message, "Incorrect" appears on the image / frame. 
+In case any heads are detected without a helmet, the same "Incorrect" message appears, indicating danger.
 
-A second use case can be initiated by running the detectgate.py script.
-It is an automated gate entrance system for construction sites. A person is detected in the frame and we check for their helmet. If the helmet is not detected, the gate will remain closed.
-Once it is detected, we count for 30 frames, if the person had the helmet on for 30 consecutive frames, we open the gate for 15 frames. If the count is disrupted before it reaches 30, it resets to 0
+The second use case can be initiated by running the detectgate.py script.
+It is an automated gate entrance system for construction sites. 
+A person is detected in the frame and we check for their helmet. If the helmet is not detected, the gate will remain closed.
+Once it is detected, we count for 30 frames, if the person had the helmet on for 30 consecutive frames, we open the gate for 15 frames. 
+If the count is disrupted before it reaches 30, it resets to 0
  
 
 

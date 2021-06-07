@@ -51,11 +51,11 @@ See CapStone_SOS.ipynb to easily run the app, or use terminal with the pretraine
 
 First use case:<br/>
 ```bash
-!python detect.py --source 0 --weights personhelmet.pt --conf 0.55<br/>
+!python detect.py --source 0 --weights personhelmet.pt --conf 0.55
 ```
 Second use case<br/>
 ```bash
-!python detectgate.py --source 0 --weights personhelmet.pt --conf 0.55<br/>
+!python detectgate.py --source 0 --weights personhelmet.pt --conf 0.55
 ```
 
 ```bash

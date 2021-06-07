@@ -16,16 +16,12 @@ Once it is detected, we count for 30 frames, if the person had the helmet on for
  
 
 
-The detections of persons are then passed to a Deep Sort algorithm (https://github.com/ZQPei/deep_sort_pytorch) which tracks the persons. The reason behind the fact that it just tracks persons is that the deep association metric is trained on a person ONLY datatset.
+## Work in progress - People movement tracker
 
-## Description
+The detections of persons from Yolov5 are passed to a Deep Sort algorithm (https://github.com/ZQPei/deep_sort_pytorch) which tracks the persons. 
+For each detection, the center of their bounding box is calculated, then the center's coordinate is passed to a dictionary each frame.
+For each detection, we get all of the previous coordinate location and draw lines in consecutive order.
 
-The implementation is based on two papers:
-
-- Simple Online and Realtime Tracking with a Deep Association Metric
-https://arxiv.org/abs/1703.07402
-- YOLOv4: Optimal Speed and Accuracy of Object Detection
-https://arxiv.org/pdf/2004.10934.pdf
 
 ## Requirements
 

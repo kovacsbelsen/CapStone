@@ -237,8 +237,8 @@ def detect(opt):
 
                         
 
-                        print(points)
-                        cv2.putText(im0, 'asd '  + str(points), org, font, fontScale, color2, thick, cv2.LINE_AA) 
+                        #print(points)
+                        #cv2.putText(im0, 'asd '  + str(points), org, font, fontScale, color2, thick, cv2.LINE_AA) 
                         
                         
                 

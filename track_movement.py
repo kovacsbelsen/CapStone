@@ -22,10 +22,19 @@ from collections import deque
 import numpy as np
 
 
-pts = deque(maxlen=64)
+pts = deque(maxlen=1000000)
 center = None
 
 palette = (2 ** 11 - 1, 2 ** 15 - 1, 2 ** 20 - 1)
+
+font = cv2.FONT_HERSHEY_SIMPLEX
+org = (50, 50)
+org2 = (200, 455)
+fontScale = 1
+thick = 2
+color2 = (0,255,0)
+thickness = int(1)
+points = {}
 
 
 def bbox_rel(*xyxy):
@@ -167,29 +176,134 @@ def detect(opt):
                     obj = [x_c, y_c, bbox_w, bbox_h]
                     bbox_xywh.append(obj)
                     confs.append([conf.item()])
-                    center = min([xyxy[0].item(), xyxy[2].item()])
+
+
+
+
+
+
+                    bbox_left = min([xyxy[0].item(), xyxy[2].item()])
+                    bbox_top = min([xyxy[1].item(), xyxy[3].item()])
+                    bbox_w = abs(xyxy[0].item() - xyxy[2].item())
+                    bbox_h = abs(xyxy[1].item() - xyxy[3].item())
+                    x_c = (bbox_left + bbox_w / 2)
+                    y_c = (bbox_top + bbox_h / 2)
+
+                    center = x_c, y_c
+
+                    center = [int(item) for item in center]
+                    
                     pts.appendleft(center)
+
+                    
+
+
 
                 xywhs = torch.Tensor(bbox_xywh)
                 confss = torch.Tensor(confs)
 
                 # Pass detections to deepsort
                 outputs = deepsort.update(xywhs, confss, im0)
-                print(len(outputs))
+                #print(len(outputs))
 
                 # draw boxes for visualization
                 if len(outputs) > 0:
                     bbox_xyxy = outputs[:, :4]
                     identities = outputs[:, -1]
                     draw_boxes(im0, bbox_xyxy, identities)
+
                     
+                    for i, object in enumerate(outputs):
+                        
+                        x1, y1, x2, y2 = [int(i) for i in object][:4]
+                        xc = (x1 + x2) /2
+                        yc = (y1 + y2) /2
+                        xc = int(xc)
+                        yc = int(yc)
+                        cent = xc, yc
 
+                        #print(cent)
+                        cv2.putText(im0, 'asd '  + str(cent), org, font, fontScale, color2, thick, cv2.LINE_AA)
+
+
+                        if object[-1] not in points.keys():
+                            points[object[-1]] = (cent)
+                        else:
+                            points[object[-1]].append(cent)
+
+
+                        #print(points)
+                        #cv2.putText(im0, 'asd '  + str(points), org, font, fontScale, color2, thick, cv2.LINE_AA) 
+                        
+                        
                 
-            for i in range(1, len(pts)):
+                if len(points) > 0:
+                    for key, value in points.items():
+                        #print(key)
+                        color = compute_color_for_labels(key)
+
+                        #if points[key] is None:
+                            #pass
+                        #else:
+
+                            #x1, y1, x2, y2 = [int(i) for i in value[-1]]
+                            #xc = (x1 + x2) /2
+                            #yc = (y1 + y2) /2
+                            #xc = int(xc)
+                            #yc = int(yc)
+                            #cent = xc, yc
+                        
+
+                        #for key in points.items():
+
+                        for i in range(2, len(value)):
+                            if value[i - 1] is None or value[i] is None:
+                                continue
+                            #print(value[i])
+                            #print(value[i - 1])
+                            #cv2.line(im0, value[i - 1], value[i], color, thickness)
+
+ 
+
+                    
+                    
+                    #for i, box in enumerate(bbox_xyxy):
+                        #x1, y1, x2, y2 = [int(i) for i in box]
+                        #xc = (x1 + x2) /2
+                        #yc = (y1 + y2) /2
+                        #xc = int(xc)
+                        #yc = int(yc)
+                        #cent = xc, yc
+
+                        
+                        #cv2.putText(im0, 'asd '  + str(cent), org, font, fontScale, color2, thick, cv2.LINE_AA) 
+
+                        #for i in range(len(identities)):
+                            #if i not in points:
+                                #p_key = identities[i]
+                                #p_value = cent
+                                #points.setdefault(p_key, []).append(p_value)
+                                #cv2.putText(im0, 'asd '  + str(identities), org, font, fontScale, color2, thick, cv2.LINE_AA)
+                                #print(points)
+
+
+
+                #if len(pts) > 0:
+                    #for i in range(1, len(pts)):
                 
 
-                if pts[i - 1] is None or pts[i] is None:
-                    continue
+                        #if pts[i - 1] is None or pts[i] is None:
+                            #continue
+
+                        #thickness = int(1)
+                        #cv2.line(im0, pts[i - 1], pts[i], (0, 0, 255), thickness)
+
+                        
+                    
+            #for i, key, value in points:
+
+                #if pts[i - 1] is None or pts[i] is None:
+                    #continue
 
                 #thickness = int(5)
                 #cv2.line(im0, pts[i - 1], pts[i], (0, 0, 255), thickness)
@@ -237,12 +351,20 @@ def detect(opt):
                     vid_writer = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
                 vid_writer.write(im0)
 
+
+        
+
+
     if save_txt or save_vid:
         print('Results saved to %s' % os.getcwd() + os.sep + out)
         if platform == 'darwin':  # MacOS
             os.system('open ' + save_path)
 
     print('Done. (%.3fs)' % (time.time() - t0))
+
+
+    
+
 
 
 if __name__ == '__main__':
@@ -283,7 +405,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     args.img_size = check_img_size(args.img_size)
-    print(args)
+    #print(args)
 
     with torch.no_grad():
         detect(args)

@@ -222,18 +222,23 @@ def detect(opt):
                         yc = int(yc)
                         cent = xc, yc
 
+                        p_key = object[4:5]
+                        p_key = int(p_key)
+                        #cv2.putText(im0, 'asd '  + str(p_key), org, font, fontScale, color2, thick, cv2.LINE_AA)
+
                         #print(cent)
-                        cv2.putText(im0, 'asd '  + str(cent), org, font, fontScale, color2, thick, cv2.LINE_AA)
+                        #cv2.putText(im0, 'asd '  + str(cent), org, font, fontScale, color2, thick, cv2.LINE_AA)
 
 
-                        if object[-1] not in points.keys():
-                            points[object[-1]] = (cent)
+                        if p_key not in points.keys():
+                            points[p_key] = ([cent])
                         else:
-                            points[object[-1]].append(cent)
+                            points.setdefault(p_key, []).append(cent)
 
+                        
 
-                        #print(points)
-                        #cv2.putText(im0, 'asd '  + str(points), org, font, fontScale, color2, thick, cv2.LINE_AA) 
+                        print(points)
+                        cv2.putText(im0, 'asd '  + str(points), org, font, fontScale, color2, thick, cv2.LINE_AA) 
                         
                         
                 
@@ -261,7 +266,7 @@ def detect(opt):
                                 continue
                             #print(value[i])
                             #print(value[i - 1])
-                            #cv2.line(im0, value[i - 1], value[i], color, thickness)
+                            cv2.line(im0, value[i - 1], value[i], color, thickness)
 
  
 

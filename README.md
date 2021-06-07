@@ -10,6 +10,7 @@ This repository contains a moded version of PyTorch YOLOv5 (https://github.com/u
 Construction site object detection project, for predicting the proper use of safety helmets.
 
 The first use case can be initiated by running the detect.py script in jupyter notebook (see CapStone_SOS.ipynb) or terminal.
+
 It detects people, helmets, or if helmets are not detected, heads.
 All detected people are counted and compared to the amount of helmets detected. If it is not equal, an error message, "Incorrect" appears on the image / frame. In case any heads are detected without a helmet, the same "Incorrect" message appears, indicating danger.
 

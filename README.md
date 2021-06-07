@@ -11,7 +11,8 @@ Construction site object detection project, for predicting the proper use of saf
 
 The first use case can be initiated by running the detect.py script in jupyter notebook (see CapStone_SOS.ipynb) or terminal.<br/>
 It detects people, helmets, or if helmets are not detected, heads.<br/>
-All detected people are counted and compared to the amount of helmets detected. If it is not equal, an error message, "Incorrect" appears on the image / frame.<br/> 
+All detected people are counted and compared to the amount of helmets detected.<br/> 
+If it is not equal, an error message, "Incorrect" appears on the image / frame.<br/> 
 In case any heads are detected without a helmet, the same "Incorrect" message appears, indicating danger.<br/>
 
 The second use case can be initiated by running the detectgate.py script.<br/>
@@ -39,31 +40,29 @@ All dependencies are included in the associated docker images. Docker requiremen
 - `nvidia-docker`
 - Nvidia Driver Version >= 440.44
 
-## Before you run the tracker
+Running the app on CUDA is recommended for performance, if a GPU is available.
 
-1. Clone the repository recursively:
 
-`git clone --recurse-submodules https://github.com/mikel-brostrom/Yolov5_DeepSort_Pytorch.git`
+## Detection
 
-If you already cloned and forgot to use `--recurse-submodules` you can run `git submodule update --init`
+Detections can be run on most image and video formats as well as live camera feed<br/>
 
-2. Github block pushes of files larger than 100 MB (https://help.github.com/en/github/managing-large-files/conditions-for-large-files). Hence you need to download two different weights: the ones for yolo and the ones for deep sort
+See CapStone_SOS.ipynb to easily run the app, or use terminal with the pretrained personhelmet.pt weight at a confidence threshold of 55%<br/>
 
-- download the yolov5 weight from the latest realease https://github.com/ultralytics/yolov5/releases. Place the downlaoded `.pt` file under `yolov5/weights/`
-- download the deep sort weights from https://drive.google.com/drive/folders/1xhG0kRH1EX5B9_Iz8gQJb7UNnn_riXi6. Place ckpt.t7 file under`deep_sort/deep/checkpoint/`
+First use case:<br/>
+!python detect.py --source 0 --weights personhelmet.pt --conf 0.55<br/>
 
-## Tracking
+Second use case<br/>
+!python detectgate.py --source 0 --weights personhelmet.pt --conf 0.55<br/>
 
-Tracking can be run on most video formats
 
 ```bash
-python3 track.py --source ...
+!python detect.py --source ...
 ```
 
 - Video:  `--source file.mp4`
 - Webcam:  `--source 0`
-- RTSP stream:  `--source rtsp://170.93.143.139/rtplive/470011e600ef003a004ee33696235daa`
-- HTTP stream:  `--source http://wmccpinetop.axiscam.net/mjpg/video.mjpg`
+- Image: `--source file.jpg`
 
 MOT compliant results can be saved to `inference/output` by 
 

@@ -2,9 +2,12 @@
 
 ![](site.gif)
 
-## Introduction
+## Introduction - Safet of Site
 
-This repository contains a moded version of PyTorch YOLOv5 (https://github.com/ultralytics/yolov5). 
+This repository contains a moded version of PyTorch YOLOv5 (https://github.com/ultralytics/yolov5).
+
+
+Construction site object detection project, for predicting the proper use of safety helmets.
 
 The first use case can be initiated by running the detect.py script in jupyter notebook (see CapStone_SOS.ipynb) or terminal.
 It detects people, helmets, or if helmets are not detected, heads.

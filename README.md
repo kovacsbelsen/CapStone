@@ -50,11 +50,13 @@ Detections can be run on most image and video formats as well as live camera fee
 See CapStone_SOS.ipynb to easily run the app, or use terminal with the pretrained personhelmet.pt weight at a confidence threshold of 55%<br/>
 
 First use case:<br/>
+```bash
 !python detect.py --source 0 --weights personhelmet.pt --conf 0.55<br/>
-
+```
 Second use case<br/>
+```bash
 !python detectgate.py --source 0 --weights personhelmet.pt --conf 0.55<br/>
-
+```
 
 ```bash
 !python detect.py --source ...

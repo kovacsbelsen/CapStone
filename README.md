@@ -1,10 +1,22 @@
-# Yolov5 + Deep Sort with PyTorch
+# Safe of Site - Helmet detection with Yolo V5
 
-![](Town.gif)
+![](site.gif)
 
 ## Introduction
 
-This repository contains a moded version of PyTorch YOLOv5 (https://github.com/ultralytics/yolov5). It filters out every detection that is not a person. The detections of persons are then passed to a Deep Sort algorithm (https://github.com/ZQPei/deep_sort_pytorch) which tracks the persons. The reason behind the fact that it just tracks persons is that the deep association metric is trained on a person ONLY datatset.
+This repository contains a moded version of PyTorch YOLOv5 (https://github.com/ultralytics/yolov5). 
+
+The first use case can be initiated by running the detect.py script in jupyter notebook (see CapStone_SOS.ipynb) or terminal.
+It detects people, helmets, or if helmets are not detected, heads.
+All detected people are counted and compared to the amount of helmets detected. If it is not equal, an error message, "Incorrect" appears on the image / frame. In case any heads are detected without a helmet, the same "Incorrect" message appears, indicating danger.
+
+A second use case can be initiated by running the detectgate.py script.
+It is an automated gate entrance system for construction sites. A person is detected in the frame and we check for their helmet. If the helmet is not detected, the gate will remain closed.
+Once it is detected, we count for 30 frames, if the person had the helmet on for 30 consecutive frames, we open the gate for 15 frames. If the count is disrupted before it reaches 30, it resets to 0
+ 
+
+
+The detections of persons are then passed to a Deep Sort algorithm (https://github.com/ZQPei/deep_sort_pytorch) which tracks the persons. The reason behind the fact that it just tracks persons is that the deep association metric is trained on a person ONLY datatset.
 
 ## Description
 

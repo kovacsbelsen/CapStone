@@ -1,11 +1,7 @@
 # Safe of Site - Helmet detection with Yolo V5
 
-![](site.gif)
-![](site2.gif)
-![](Town.gif)
-![](selfcam.gif)
-![](selfcam2.gif)
-![](street_track.gif)
+
+
 
 ## Introduction - Safet of Site
 
@@ -19,13 +15,16 @@ It detects people, helmets, or if helmets are not detected, heads.<br/>
 All detected people are counted and compared to the amount of helmets detected.<br/> 
 If it is not equal, an error message, "Incorrect" appears on the image / frame.<br/> 
 In case any heads are detected without a helmet, the same "Incorrect" message appears, indicating danger.<br/>
+![](site.gif)
+![](site2.gif)
 
 The second use case can be initiated by running the detectgate.py script.<br/>
 It is an automated gate entrance system for construction sites.<br/> 
 A person is detected in the frame and we check for their helmet. If the helmet is not detected, the gate will remain closed.<br/>
 Once it is detected, we count for 30 frames, if the person had the helmet on for 30 consecutive frames, we open the gate for 15 frames.<br/> 
 If the count is disrupted before it reaches 30, it resets to 0.<br/>
- 
+![](selfcam.gif)
+![](selfcam2.gif)
 
 
 ## Work in progress - People movement tracker
@@ -33,7 +32,8 @@ If the count is disrupted before it reaches 30, it resets to 0.<br/>
 The detections of persons from Yolov5 are passed to a Deep Sort algorithm (https://github.com/ZQPei/deep_sort_pytorch) which tracks the persons. 
 For each detection, the center of their bounding box is calculated, then the center's coordinate is passed to a dictionary each frame.
 For each detection, we get all of the previous coordinate location and draw lines in consecutive order.
-
+![](Town.gif)
+![](street_track.gif)
 
 ## Requirements
 
